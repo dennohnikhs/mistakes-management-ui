@@ -8,46 +8,46 @@ function Login() {
   const [password, setPassword] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [loginMessage, setLoginMessage] = useState(""); // State for login message
+  const [formSubmitted, setFormSubmitted] = useState(false); // State for form submission
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    try {
-      const response = await axios.post("http://localhost:8080/api/login", {
-        email,
-        password,
-        isAdmin,
-      });
-      // console.log(response.data);
-      // Extract the token from the response
-      const { token } = response.data;
+    setFormSubmitted(true); // Mark the form as submitted
 
-      // Store the token securely (e.g., in local storage)
-      localStorage.setItem(
-        "84e10b8e8a7669c7ad3ba94272d13d6f2fc807ac8a51fa9f1d96e04ba2557fa8f63095879cabad8e1170d09ff615eb930f4f6f0760bafbc6cba1c8a75fe3ee4a",
-        token
-      );
-      // Set the success message
-      setLoginMessage(response.data.message);
-      // Redirect or perform actions for successful login
-      // Determine the redirection path based on user role
-      setTimeout(() => {
+    if (email && password) {
+      try {
+        const response = await axios.post("http://localhost:8080/api/login", {
+          email,
+          password,
+          isAdmin,
+        });
+
+        const { token } = response.data;
+        localStorage.setItem(
+          "84e10b8e8a7669c7ad3ba94272d13d6f2fc807ac8a51fa9f1d96e04ba2557fa8f63095879cabad8e1170d09ff615eb930f4f6f0760bafbc6cba1c8a75fe3ee4a",
+          token
+        );
+
+        // Determine the redirection path based on user role
         const redirectionPath = isAdmin ? "/admin-home" : "/teacher-home";
 
-        // Use navigate to redirect to the appropriate dashboard
-        navigate(redirectionPath);
-      }, 2000);
-    } catch (error) {
-      console.error("Login failed", error);
-      // Handle login failure, display an error message, etc.
-      // Set the error message
-      // setLoginMessage(error.data.message);
-      setLoginMessage(
-        "Invalid email or password. Please confirm your details and try again"
-      );
+        // Set the success message
+        setLoginMessage(response.data.message);
+
+        setTimeout(() => {
+          // Use navigate to redirect to the appropriate dashboard
+          navigate(redirectionPath);
+        }, 2000);
+      } catch (error) {
+        // Handle login failure
+        setLoginMessage(
+          "Invalid email or password. Please confirm your details and try again"
+        );
+      }
+    } else {
+      // If the form is submitted but fields are empty, display a required message
+      setLoginMessage("Email and password are required");
     }
-    // Clear form fields
-    setEmail("");
-    setPassword("");
   };
 
   return (
@@ -64,19 +64,26 @@ function Login() {
           {loginMessage}
         </h1>
       )}
+
       <input
         type="text"
+        required
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="w-full max-w-xs px-4 py-2 mb-4 border border-pa-black rounded-md shadow-md focus:outline-none focus:ring "
+        className={`w-full max-w-xs px-4 py-2 mb-4 border ${
+          formSubmitted && !email ? "border-red-500" : "border-pa-black"
+        } rounded-md shadow-md focus:outline-none focus:ring`}
       />
       <input
-        type="text"
-        placeholder="password"
+        type="password"
+        required
+        placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="w-full max-w-xs px-4 py-2 mb-4 border border-pa-black rounded-md shadow-md focus:outline-none focus:ring "
+        className={`w-full max-w-xs px-4 py-2 mb-4 border ${
+          formSubmitted && !password ? "border-red-500" : "border-pa-black"
+        } rounded-md shadow-md focus:outline-none focus:ring`}
       />
 
       <div className="mb-4">
@@ -88,7 +95,7 @@ function Login() {
             onChange={() => setIsAdmin(!isAdmin)}
             className="w-5 h-5 rounded-md "
           />
-          <span className="text-sm text-gray-600 capitalize">login admin</span>
+          <span className="text-sm text-gray-600 capitalize">Login admin</span>
         </label>
       </div>
       <div className="" onClick={handleLogin}>
