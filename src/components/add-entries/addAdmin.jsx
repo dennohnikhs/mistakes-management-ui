@@ -1,6 +1,6 @@
 import { Plus } from "react-feather";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function AddAdminForm() {
   const [name, setName] = useState("");
