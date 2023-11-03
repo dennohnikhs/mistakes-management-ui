@@ -6,6 +6,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { getAuthToken } from "../../utils/get_token_key";
+import { API_BASE_URL } from "../constants/constants";
 
 function AdminDashBoard() {
   const navigate = useNavigate();
@@ -15,15 +17,12 @@ function AdminDashBoard() {
 
   const handleRedirectToAdminsTable = async () => {
     try {
-      const token = localStorage.getItem(
-        "84e10b8e8a7669c7ad3ba94272d13d6f2fc807ac8a51fa9f1d96e04ba2557fa8f63095879cabad8e1170d09ff615eb930f4f6f0760bafbc6cba1c8a75fe3ee4a"
-      ); // Replace with your actual token key
+      const token = getAuthToken();
       if (!token) {
-        // Handle the case where the token is not available (e.g., user is not authenticated)
-        console.error("Authentication token not available");
+        // Handle the case where the token is not available
         return;
       }
-      const response = await axios.get("http://localhost:8080/api/admins", {
+      const response = await axios.get(`${API_BASE_URL}/admins`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -50,16 +49,14 @@ function AdminDashBoard() {
   }
   const handleSearchAdminByEmail = async () => {
     try {
-      const token = localStorage.getItem(
-        "84e10b8e8a7669c7ad3ba94272d13d6f2fc807ac8a51fa9f1d96e04ba2557fa8f63095879cabad8e1170d09ff615eb930f4f6f0760bafbc6cba1c8a75fe3ee4a"
-      ); // Replace with your actual token key
+      const token = getAuthToken();
       if (!token) {
-        console.error("Authentication token not available");
+        // Handle the case where the token is not available
         return;
       }
 
       const response = await axios.get(
-        `http://localhost:8080/api/search/admins?email=${searchQuery}`,
+        `${API_BASE_URL}/search/admins?email=${searchQuery}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

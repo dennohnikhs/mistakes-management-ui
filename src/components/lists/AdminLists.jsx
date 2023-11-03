@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Edit, Trash2 } from "react-feather";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import {
+  getAllAdmins,
+  updateAdminPassword,
+  deleteAdmin,
+} from "../../apis/adminService";
 
 function AdminList() {
   const [admins, setAdmins] = useState([]);
@@ -11,25 +16,8 @@ function AdminList() {
 
   const handleGetAllAdmins = async () => {
     try {
-      const token = localStorage.getItem(
-        "84e10b8e8a7669c7ad3ba94272d13d6f2fc807ac8a51fa9f1d96e04ba2557fa8f63095879cabad8e1170d09ff615eb930f4f6f0760bafbc6cba1c8a75fe3ee4a"
-      ); // Replace with your actual token key
-      if (!token) {
-        // Handle the case where the token is not available (e.g., user is not authenticated)
-        console.error("Authentication token not available");
-        return;
-      }
-      const response = await axios.get("http://localhost:8080/api/admins", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.data.success) {
-        setAdmins(response.data.list_of_admins);
-      } else {
-        console.error("Failed to fetch admins. Response data:", response.data);
-      }
+      const admins = await getAllAdmins();
+      setAdmins(admins);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         console.error("Unauthorized: Invalid or expired token");
@@ -63,34 +51,8 @@ function AdminList() {
     }
 
     try {
-      const token = localStorage.getItem(
-        "84e10b8e8a7669c7ad3ba94272d13d6f2fc807ac8a51fa9f1d96e04ba2557fa8f63095879cabad8e1170d09ff615eb930f4f6f0760bafbc6cba1c8a75fe3ee4a"
-      ); // Replace with your actual token key
-      if (!token) {
-        console.error("Authentication token not available");
-        return;
-      }
-
-      const response = await axios.put(
-        `http://localhost:8080/api/admin/edit/${adminEmail}`,
-        { password: newPassword },
-
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.data.success) {
-        toast.success("Admin password reset successfully"); // Display success message
-      } else {
-        console.error(
-          "Failed to reset admin password:",
-          response.data.error_message
-        );
-        toast.error("Failed to reset admin password"); // Display error message
-      }
+      await updateAdminPassword(adminEmail, newPassword);
+      toast.success("Admin password reset successfully"); // Display success message
     } catch (error) {
       console.log(
         "Error occurred while resetting admin password:",
@@ -100,36 +62,15 @@ function AdminList() {
     }
   };
   const handleDeleteAdmin = async (adminEmail) => {
-    try {
-      const token = localStorage.getItem(
-        "84e10b8e8a7669c7ad3ba94272d13d6f2fc807ac8a51fa9f1d96e04ba2557fa8f63095879cabad8e1170d09ff615eb930f4f6f0760bafbc6cba1c8a75fe3ee4a"
-      ); // Replace with your actual token key
-      if (!token) {
-        // Handle the case where the token is not available (e.g., user is not authenticated)
-        console.error("Authentication token not available");
-        return;
-      }
-
-      const response = await axios.delete(
-        `http://localhost:8080/api/admin/${adminEmail}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.data.success) {
-        console.log("Admin deleted successfully");
+    if (window.confirm("Are you sure you want to delete this admin?")) {
+      try {
+        await deleteAdmin(adminEmail);
         toast.success("Admin deleted successfully"); // Display success message
         handleGetAllAdmins();
-      } else {
-        console.error("Failed to delete admin:", response.data.error_message);
-        toast.error("Failed to delete admin"); // Display error message
+      } catch (error) {
+        console.error("Error occurred while deleting admin:", error);
+        toast.error("Error occurred while deleting admin"); // Display error message
       }
-    } catch (error) {
-      console.log("Error occurred while deleting admin:", error.message);
-      toast.error("Error occurred while deleting admin"); // Display error message
     }
   };
 
