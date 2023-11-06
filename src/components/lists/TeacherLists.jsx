@@ -4,20 +4,20 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
-  getAllAdmins,
-  updateAdminPassword,
-  deleteAdmin,
-} from "../../apis/adminService";
+  deleteTeacher,
+  getTeachers,
+  updateTeacherPassword,
+} from "../../apis/teacherService";
 
-function AdminList() {
-  const [admins, setAdmins] = useState([]);
+function TeacherList() {
+  const [teachers, setTeachers] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // State to track loading state
   const [error, setError] = useState(null); // State to track error
 
-  const handleGetAllAdmins = async () => {
+  const handleGetAllTeachers = async () => {
     try {
-      const admins = await getAllAdmins();
-      setAdmins(admins);
+      const teachers = await getTeachers();
+      setTeachers(teachers);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         console.error("Unauthorized: Invalid or expired token");
@@ -31,8 +31,8 @@ function AdminList() {
     }
   };
   useEffect(() => {
-    // Call handleGetAllAdmins on page load
-    handleGetAllAdmins();
+    // Call handleGetAllTeachers on page load
+    handleGetAllTeachers();
   }, []);
   if (isLoading) {
     return <div>Loading...</div>;
@@ -42,38 +42,36 @@ function AdminList() {
     toast.error(error);
     return <div>Error: {error}</div>;
   }
-
-  const handleUpdateAdminPassword = async (adminEmail) => {
-    const newPassword = prompt("Please enter the new password"); // Prompt the user for the new password
+  const handleUpdateTeacherPassword = async (teacherEmail) => {
+    const newPassword = prompt("Please enter the new password "); // Prompt the user for the new password
     if (!newPassword) {
       console.error("New password not provided");
       return;
     }
 
     try {
-      await updateAdminPassword(adminEmail, newPassword);
-      toast.success("Admin password reset successfully"); // Display success message
+      await updateTeacherPassword(teacherEmail, newPassword);
+      toast.success("teacher password reset successfully"); // Display success message
     } catch (error) {
       console.log(
-        "Error occurred while resetting admin password:",
+        "Error occurred while resetting teacher password:",
         error.message
       );
-      toast.error("Error occurred while resetting admin password"); // Display error message
+      toast.error("Error occurred while resetting teacher password"); // Display error message
     }
   };
-  const handleDeleteAdmin = async (adminEmail) => {
+  const handleDeleteTeacher = async (teacherEmail) => {
     if (
       window.confirm(
-        `Are you sure you want to delete this admin with email ${adminEmail}?`
+        `Are you sure you want to delete this teacher with email ${teacherEmail}?`
       )
     ) {
       try {
-        await deleteAdmin(adminEmail);
-        toast.success("Admin deleted successfully"); // Display success message
-        handleGetAllAdmins();
+        await deleteTeacher(teacherEmail);
+        handleGetAllTeachers();
       } catch (error) {
-        console.error("Error occurred while deleting admin:", error);
-        toast.error("Error occurred while deleting admin"); // Display error message
+        console.error("Error occurred while deleting teacher:", error);
+        toast.error("Error occurred while deleting teacher"); // Display error message
       }
     }
   };
@@ -101,25 +99,25 @@ function AdminList() {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-pa-gray">
-          {admins.map((admin, index) => (
-            <tr key={admin.id}>
+          {teachers.map((teacher, index) => (
+            <tr key={teacher.id}>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm text-pa-gray-900">
-                  {index + 1}. {admin.name}
+                  {index + 1}. {teacher.name}
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm text-pa-gray-900">
-                  {admin.phone_number}
+                  {teacher.phone_number}
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-pa-gray-900">{admin.email}</div>
+                <div className="text-sm text-pa-gray-900">{teacher.email}</div>
               </td>
               <td>
                 <button
                   className="px-6 text-pa-green"
-                  onClick={() => handleUpdateAdminPassword(admin.email)}
+                  onClick={() => handleUpdateTeacherPassword(teacher.email)}
                 >
                   <Edit />
                 </button>
@@ -127,7 +125,7 @@ function AdminList() {
               <td>
                 <button
                   className="px-6 text-red-500"
-                  onClick={() => handleDeleteAdmin(admin.email)}
+                  onClick={() => handleDeleteTeacher(teacher.email)}
                 >
                   <Trash2 />
                 </button>
@@ -141,4 +139,4 @@ function AdminList() {
   );
 }
 
-export default AdminList;
+export default TeacherList;

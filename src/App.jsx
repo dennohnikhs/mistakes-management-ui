@@ -11,6 +11,7 @@ import StudentsDashBoard from "./pages/student";
 import OffenseTypesDashBoard from "./pages/offense-types";
 import TeachersDashboard from "./pages/teacher";
 import AdminList from "./components/lists/AdminLists";
+import TeacherList from "./components/lists/TeacherLists";
 function App() {
   return (
     <>
@@ -26,6 +27,7 @@ function App() {
           <Route path="/students" element={<StudentsDashBoard />} />
           <Route path="/offense-types" element={<OffenseTypesDashBoard />} />
           <Route path="/admin-list" element={<AdminList />} />
+          <Route path="/teacher-list" element={<TeacherList />} />
           <Route
             path="/teacher-main-dashboard"
             element={<TeachersDashboard />}

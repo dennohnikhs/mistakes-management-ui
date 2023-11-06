@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Search } from "react-feather";
 import PaGetAll from "../components/button/PaGetAll";
 import AddAdminForm from "../components/add-entries/addAdmin";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,8 @@ function AdminDashBoard() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [showNoResultsMessage, setShowNoResultsMessage] = useState(false);
+
   const [error, setError] = useState(null); // State to track error
 
   const handleRedirectToAdminsTable = async () => {
@@ -48,6 +50,15 @@ function AdminDashBoard() {
     return <div>Error: {error}</div>;
   }
   const handleSearchAdminByEmail = async () => {
+    if (
+      !searchQuery.includes("@") ||
+      !searchQuery.includes(".") ||
+      searchQuery.includes(" ")
+    ) {
+      return toast.warning(
+        "email address cannot be empty or contain spaces please enter a valid email address e.g. 123@gmail.com"
+      );
+    }
     try {
       const token = getAuthToken();
       if (!token) {
@@ -67,13 +78,9 @@ function AdminDashBoard() {
       if (response.data.success) {
         // Admin found, set search results and clear the search query
         setSearchResults(response.data.admin);
-        setSearchQuery("");
       } else {
         // Admin not found, clear search results and display a message
-        setSearchResults();
-        // toast.error("Admin not found"); // Display error message
-
-        console.log("Admin not found");
+        setShowNoResultsMessage(true);
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -86,7 +93,9 @@ function AdminDashBoard() {
     }
     setTimeout(() => {
       setSearchResults("");
-    }, 5000);
+      setShowNoResultsMessage(false);
+      setSearchQuery("");
+    }, 3000);
   };
 
   return (
@@ -108,10 +117,10 @@ function AdminDashBoard() {
       </div>
 
       <div onClick={handleRedirectToAdminsTable}>
-        <PaGetAll title="Get all Admins" />
+        <PaGetAll title="view all Admins" />
       </div>
 
-      {searchResults.length > 0 && (
+      {searchResults.length > 0 ? (
         <ul>
           {searchResults.map((admin) => (
             <li key={admin.id} className="text-red flex flex-col text-pa-green">
@@ -129,6 +138,14 @@ function AdminDashBoard() {
             </li>
           ))}
         </ul>
+      ) : (
+        <div>
+          {showNoResultsMessage && (
+            <div className="text-red-500">
+              No Admin with the email provided was found
+            </div>
+          )}
+        </div>
       )}
 
       <AddAdminForm />
