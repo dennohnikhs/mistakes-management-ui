@@ -116,9 +116,7 @@ function AdminDashBoard() {
         </button>
       </div>
 
-      <div onClick={handleRedirectToAdminsTable}>
-        <PaGetAll title="view all Admins" />
-      </div>
+      <PaGetAll onClick={handleRedirectToAdminsTable}>View All Admins</PaGetAll>
 
       {searchResults.length > 0 ? (
         <ul>

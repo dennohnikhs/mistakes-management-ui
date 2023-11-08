@@ -2,12 +2,8 @@ import { useEffect, useState } from "react";
 import { Edit, Trash2 } from "react-feather";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import {
-  getAllAdmins,
-  updateAdminPassword,
-  deleteAdmin,
-} from "../../apis/adminService";
+import { getAllAdmins, updateAdminPassword } from "../../apis/adminService";
+import { Button } from "@mui/material";
 
 function AdminList() {
   const [admins, setAdmins] = useState([]);
@@ -68,7 +64,7 @@ function AdminList() {
       )
     ) {
       try {
-        await deleteAdmin(adminEmail);
+        await handleDeleteAdmin(adminEmail);
         toast.success("Admin deleted successfully"); // Display success message
         handleGetAllAdmins();
       } catch (error) {
@@ -80,7 +76,7 @@ function AdminList() {
 
   return (
     // ... same table for displaying the admins
-    <div>
+    <div className="bg-green-500">
       <table className="min-w-full divide-y divide-pa-gray lg:mt-7">
         <thead>
           <tr>
@@ -117,20 +113,22 @@ function AdminList() {
                 <div className="text-sm text-pa-gray-900">{admin.email}</div>
               </td>
               <td>
-                <button
-                  className="px-6 text-pa-green"
+                <Button
+                  variant="contained"
+                  color="primary"
                   onClick={() => handleUpdateAdminPassword(admin.email)}
                 >
                   <Edit />
-                </button>
+                </Button>
               </td>
               <td>
-                <button
-                  className="px-6 text-red-500"
+                <Button
+                  variant="contained"
+                  color="warning"
                   onClick={() => handleDeleteAdmin(admin.email)}
                 >
                   <Trash2 />
-                </button>
+                </Button>
               </td>
             </tr>
           ))}

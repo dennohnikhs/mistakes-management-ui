@@ -62,7 +62,7 @@ function AddAdminForm() {
 
   return (
     <div>
-      <div className=" px-3 flex justify-between">
+      <div className=" px-3 flex justify-between lg:min-h-[50px]">
         <div>
           {message && (
             <p

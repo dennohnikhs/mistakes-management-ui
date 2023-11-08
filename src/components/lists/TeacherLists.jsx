@@ -8,6 +8,7 @@ import {
   getTeachers,
   updateTeacherPassword,
 } from "../../apis/teacherService";
+import { Button } from "@mui/material";
 
 function TeacherList() {
   const [teachers, setTeachers] = useState([]);
@@ -78,7 +79,7 @@ function TeacherList() {
 
   return (
     // ... same table for displaying the admins
-    <div>
+    <div className="bg-green-500">
       <table className="min-w-full divide-y divide-pa-gray lg:mt-7">
         <thead>
           <tr>
@@ -115,20 +116,22 @@ function TeacherList() {
                 <div className="text-sm text-pa-gray-900">{teacher.email}</div>
               </td>
               <td>
-                <button
-                  className="px-6 text-pa-green"
+                <Button
+                  variant="contained"
+                  color="primary"
                   onClick={() => handleUpdateTeacherPassword(teacher.email)}
                 >
                   <Edit />
-                </button>
+                </Button>
               </td>
               <td>
-                <button
-                  className="px-6 text-red-500"
+                <Button
+                  variant="contained"
+                  color="warning"
                   onClick={() => handleDeleteTeacher(teacher.email)}
                 >
                   <Trash2 />
-                </button>
+                </Button>
               </td>
             </tr>
           ))}

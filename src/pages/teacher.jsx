@@ -115,9 +115,9 @@ function TeachersDashboard() {
           onClick={handleSearchTeacherByEmail}
         />
       </div>
-      <div onClick={handleRedirectToTeachersTable}>
-        <PaGetAll title="view all teachers" />
-      </div>
+      <PaGetAll onClick={handleRedirectToTeachersTable}>
+        View All Teachers
+      </PaGetAll>
       {searchResults.length > 0 ? (
         <ul>
           {searchResults.map((teacher) => (
