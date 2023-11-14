@@ -29,40 +29,7 @@ export const getAllStudents = async () => {
     throw error;
   }
 };
-export const updateStudentDetails = async (
-  studentAdmissionNumber,
-  newPoints
-) => {
-  try {
-    const token = getAuthToken();
-    if (!token) {
-      // Handle the case where the token is not available
-      return;
-    }
 
-    const response = await axios.put(
-      `${API_BASE_URL}/student/edit/${studentAdmissionNumber}`,
-      { status: newPoints },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const { success, error_message } = response.data;
-
-    if (success) {
-      // Return any necessary data or success status
-    } else {
-      console.error("Failed to reset student password:", error_message);
-      throw new Error("Failed to reset student password");
-    }
-  } catch (error) {
-    console.error("Error occurred while resetting student password:", error);
-    throw error;
-  }
-};
 export const deleteStudent = async (studentAdmissionNumber) => {
   try {
     const token = getAuthToken();

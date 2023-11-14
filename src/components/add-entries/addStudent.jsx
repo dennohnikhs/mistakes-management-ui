@@ -80,7 +80,7 @@ function AddStudentForm() {
           </div>
         )}
       </div>
-      <div className="text-pa-white bg-pa-black py-3 px-3  ">
+      <div className="text-pa-white bg-pa-black py-3 px-3 lg:w-[400px] ">
         <div className="gap-2 py-3 pb-4 w-full text-center items-center ">
           <h1> Student details...</h1>
         </div>

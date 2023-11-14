@@ -8,18 +8,18 @@ function StudentsUpdateForm() {
   const [studentStatus, setStudentStatus] = useState("");
 
   return (
-    <div className=" lg:mt-7 px-3">
-      <div className="text-pa-white bg-pa-black py-3 px-3  ">
-        <div className="gap-2 py-3 pb-4 w-full text-center items-center ">
-          <h1> Student details...</h1>
+    <div>
+      <div className="text-pa-white bg-pa-black ">
+        <div className=" py-3 text-center items-center ">
+          <h1> New Student details...</h1>
         </div>
 
-        <div className="flex flex-col gap-3 text-pa-black ">
+        <div className="flex flex-col gap-3 text-pa-white bg-pa-white px-2 py-3">
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="py-3 px-4 "
+            className="py-3 px-4 text-pa-black bg-white border border-gray-300  shadow-lg "
             placeholder="name"
             required
           />
@@ -27,7 +27,7 @@ function StudentsUpdateForm() {
             type="text"
             value={admission_number}
             onChange={(e) => setAdmissionNumber(e.target.value)}
-            className="py-3 px-4 "
+            className="py-3 px-4 text-pa-black bg-white border border-gray-300 shadow-lg "
             placeholder="admission number"
             required
           />
@@ -35,7 +35,7 @@ function StudentsUpdateForm() {
             type="text"
             value={student_class}
             onChange={(e) => setStudentClass(e.target.value)}
-            className="py-3 px-4 "
+            className="py-3 px-4 text-pa-black bg-white border border-gray-300 shadow-lg"
             placeholder="class"
             required
           />
@@ -43,7 +43,7 @@ function StudentsUpdateForm() {
             type="text"
             value={stream}
             onChange={(e) => setStream(e.target.value)}
-            className="py-3 px-4 "
+            className="py-3 px-4 text-pa-black bg-white border border-gray-300 shadow-lg "
             placeholder="stream"
             required
           />
@@ -51,7 +51,7 @@ function StudentsUpdateForm() {
             type="text"
             value={studentStatus}
             onChange={(e) => setStudentStatus(e.target.value)}
-            className="py-3 px-4 "
+            className="py-3 px-4 text-pa-black bg-white border border-gray-300 shadow-lg"
             placeholder="status"
             required
           />

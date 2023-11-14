@@ -8,7 +8,7 @@ function HomePage() {
     navigate("/login");
   };
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center py-3 px-2 font-poppins">
+    <div className="min-h-screen flex flex-col justify-center items-center py-3 px-2 font-poppins bg-pa-light-gray">
       <div>
         <img src={schoolLogoImage} alt="logo" className="h-auto w-auto" />
       </div>

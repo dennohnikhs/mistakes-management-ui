@@ -22,7 +22,7 @@ function AdminHome() {
     navigate("/sessions");
   };
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center py-3 px-2 font-poppins gap-4 bg-pa-white">
+    <div className="min-h-screen flex flex-col justify-center items-center py-3 px-2 font-poppins gap-4 bg-pa-light-gray">
       <div className="bg-pa-black rounded-lg text-pa-white py-5 px-5 lg:w-64 text-center">
         Welcome Admin
       </div>

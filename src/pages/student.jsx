@@ -54,7 +54,7 @@ function StudentsDashBoard() {
     return <div>Error: {error}</div>;
   }
   return (
-    <div className="min-h-full flex flex-col justify-center items-center lg:py-10 lg:mt-20 font-poppins gap-5">
+    <div className="min-h-screen flex flex-col justify-center items-center  lg:pt-20 font-poppins gap-5 bg-pa-light-gray">
       <div className="py-3 px-2 bg-pa-black rounded-xl flex flex-row items-center ">
         <input
           type="text"

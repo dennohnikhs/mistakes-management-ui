@@ -99,7 +99,7 @@ function AdminDashBoard() {
   };
 
   return (
-    <div className="min-h-full flex flex-col justify-center items-center py-10 lg:mt-20 font-poppins gap-5">
+    <div className="min-h-screen flex flex-col justify-center items-center py-10 lg:pt-20 font-poppins gap-5 bg-pa-light-gray">
       <div className="py-3 px-4 bg-pa-black rounded-xl flex flex-row items-center gap-2">
         <input
           type="text"

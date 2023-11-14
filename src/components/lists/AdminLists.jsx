@@ -76,9 +76,9 @@ function AdminList() {
 
   return (
     // ... same table for displaying the admins
-    <div className="bg-green-500">
+    <div>
       <table className="min-w-full divide-y divide-pa-gray lg:mt-7">
-        <thead>
+        <thead className="bg-pa-black text-white">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-pa-gray-500 uppercase ">
               Name
@@ -114,16 +114,15 @@ function AdminList() {
               </td>
               <td>
                 <Button
-                  variant="contained"
-                  color="primary"
+                  variant="text"
                   onClick={() => handleUpdateAdminPassword(admin.email)}
                 >
-                  <Edit />
+                  <Edit color="black" />
                 </Button>
               </td>
               <td>
                 <Button
-                  variant="contained"
+                  variant="text"
                   color="warning"
                   onClick={() => handleDeleteAdmin(admin.email)}
                 >

@@ -51,7 +51,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center py-3 px-2 font-poppins">
+    <div className="min-h-screen flex flex-col justify-center items-center py-3 px-2 font-poppins bg-pa-light-gray">
       {/* Display the login message */}
       {loginMessage && (
         <h1
